@@ -1,35 +1,52 @@
-const express = require('express');
+const express = require("express");
 const dotenv = require("dotenv");
-const cors = require('cors');
-const mongoose = require('mongoose');   
-const authRoutes = require('./routes/auth.js');
-const eventRoutes = require('./routes/event.js');
-const bookingRoutes = require('./routes/booking.js');
+const cors = require("cors");
+const mongoose = require("mongoose");
 
-dotenv.config();    
-console.log("EMAIL_USER =", process.env.EMAIL_USER);
-console.log("EMAIL_PASS =", process.env.EMAIL_PASS);
+const authRoutes = require("./routes/auth");
+const eventRoutes = require("./routes/event");
+const bookingRoutes = require("./routes/booking");
+
+dotenv.config();
+
 const app = express();
-app.use(cors());
-app.use(express.json());    
 
-//ROUTES
-app.use('/api/auth', authRoutes);
-app.use('/api/event', eventRoutes);
-app.use('/api/booking', bookingRoutes);
-mongoose.connect(process.env.MONGO_URI, {
-})
-.then(() => {
-        console.log('Connected to MongoDB');
-})
-.catch((error) => {
-   console.error('Error connecting to MongoDB:', error);
-});     
+// CORS
+app.use(
+  cors({
+    origin: "https://eventora-lime.vercel.app",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
 
+// Parse JSON
 app.use(express.json());
 
+// Routes
+app.use("/api/auth", authRoutes);
+app.use("/api/event", eventRoutes);
+app.use("/api/booking", bookingRoutes);
 
-const port = process.env.PORT || 5000;
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+// Test Route
+app.get("/", (req, res) => {
+  res.send("Eventora Backend Running...");
+});
+
+// MongoDB Connection
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("✅ Connected to MongoDB");
+  })
+  .catch((error) => {
+    console.error("❌ MongoDB Connection Error:", error);
+  });
+
+// Start Server
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });
