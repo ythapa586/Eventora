@@ -30,11 +30,11 @@ export const AuthProvider = ({ children }) => {
 
     return data;
   } catch (err) {
-    console.log(err.response?.data); // 👈 ye add karo
-    console.log(err);                // 👈 ye add karo
-
-    throw err;
-  }
+  alert(JSON.stringify(err.response?.data));
+  console.log("ERROR DATA =", err.response?.data);
+  console.log(err);
+  throw err;
+}
 };
 
   const register = async (name, email, password) => {
