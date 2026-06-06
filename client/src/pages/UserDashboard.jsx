@@ -555,7 +555,7 @@ const UserDashboard = () => {
         ) : (
           /* ── Bookings grid ── */
           <div className="bookings-grid">
-            {bookings.map((booking, i) => (
+            {booking.map((booking, i) => (
               <div
                 key={booking._id}
                 className="booking-card"
