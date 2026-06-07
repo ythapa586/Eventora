@@ -39,20 +39,29 @@ alert(JSON.stringify(err.response?.data, null, 2));
 };
 
   const register = async (name, email, password) => {
-    try {
-      const { data } = await api.post("/auth/register", {
-        name,
-        email,
-        password,
-      });
+  try {
+    const { data } = await api.post("/auth/register", {
+      name,
+      email,
+      password,
+    });
 
-      return data;
-    } catch (err) {
-      console.error("Registration failed:", err);
-      throw err;
-    }
-  };
+    return data;
+  } catch (err) {
+    console.log("REGISTER STATUS =", err.response?.status);
+    console.log(
+      "REGISTER ERROR =",
+      JSON.stringify(err.response?.data, null, 2)
+    );
 
+    alert(
+      "REGISTER ERROR:\n" +
+      JSON.stringify(err.response?.data, null, 2)
+    );
+
+    throw err;
+  }
+};
   const verifyOtp = async (email, otp) => {
     try {
       const { data } = await api.post("/auth/verify-otp", {
