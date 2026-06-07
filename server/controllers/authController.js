@@ -19,12 +19,27 @@ exports.registerUser = async (req, res) => {
         const { name, email, password } = req.body;
 
         const userExists = await User.findOne({ email });
+console.log("USER EXISTS=", userExists);
+          if (userExists) {
+            console.log("USER ALREADY EXISTS");
 
-        if (userExists) {
             return res.status(400).json({
                 error: 'User already exists'
             });
         }
+
+        // baaki code...
+
+    } catch (error) {
+
+        // 👇 YE REPLACE KARO
+        console.error("REGISTER ERROR =", error);
+
+        res.status(500).json({
+            error: error.message
+        });
+    }
+};
 
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
@@ -66,6 +81,8 @@ exports.registerUser = async (req, res) => {
         });
     }
 };
+
+
 // LOGIN USER
 exports.loginUser = async (req, res) => {
     try {
