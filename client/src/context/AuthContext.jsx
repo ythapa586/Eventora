@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
   try {
-    const { data } = await api.post("/auth/login", {
+    const { data } = await api.post("https://eventora-fyxm.onrender.com/api/auth/login", {
       email,
       password,
     });

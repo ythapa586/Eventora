@@ -13,6 +13,8 @@ const transporter = nodemailer.createTransport({
 
 exports.sendOtpEmail = async (email, otp, type) => {
   try {
+    console.log("EMAIL_USER =", process.env.EMAIL_USER);
+    console.log("EMAIL_PASS =", process.env.EMAIL_PASS ? "FOUND" : "MISSING");
     const mailOptions = {
       from: `"Eventora" <${process.env.EMAIL_USER}>`,
       to: email,
@@ -172,12 +174,15 @@ exports.sendOtpEmail = async (email, otp, type) => {
     };
 
     await transporter.sendMail(mailOptions);
+    console.log("✅ OTP email sent successfully");
 
     console.log(`OTP email sent to ${email} for ${type}`);
-  } catch (error) {
-    console.error(
-      `Error sending OTP email to ${email} for ${type}:`,
-      error
-    );
-  }
-};
+  }  catch (error) {
+  console.error("OTP EMAIL ERROR =", error);
+  console.error("EMAIL_USER =", process.env.EMAIL_USER);
+  console.error(
+    "EMAIL_PASS =",
+    process.env.EMAIL_PASS ? "FOUND" : "MISSING"
+  );
+}
+}
