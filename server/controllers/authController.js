@@ -51,11 +51,7 @@ exports.registerUser = async (req, res) => {
         console.log("SAVED OTP =", savedOtp);
 
 
-        await sendOtpEmail(
-            email,
-            otp,        
-            'account_verification'
-        );
+        //await sendOtpEmail(email, otp,'account_verification' );
 
         res.status(201).json({
             message: 'User registered successfully. Please verify your email.',
