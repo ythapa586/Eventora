@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://eventora-production-9efc.up.railway.app/api",
+  baseURL: "https://eventora-fyxm.onrender.com",
   headers: {
     "Content-Type": "application/json",
   },
