@@ -602,10 +602,26 @@ const Register = () => {
       </div>
 
       {/* Password Field */}
-      <div className="input-group">
-          ...
-      </div>
+      {/* Password Field */}
+<div className="input-group">
+  <label className="input-label" htmlFor="password">
+    Password
+  </label>
 
+  <div className="input-wrap">
+    <LockIcon />
+
+    <input
+      id="password"
+      type="password"
+      required
+      placeholder="Enter your password"
+      className="input-field"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+    />
+  </div>
+</div>
     </>
   ) : (
               <div className="input-group" style={{ marginBottom: 8 }}>
