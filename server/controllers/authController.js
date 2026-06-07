@@ -73,11 +73,13 @@ exports.registerUser = async (req, res) => {
 // LOGIN USER
 exports.loginUser = async (req, res) => {
     try {
-        console.log("LOGIN BODY =", req.body);
-
         const { email, password } = req.body;
 
+        console.log("LOGIN EMAIL =", email);
+
         const user = await User.findOne({ email });
+
+        console.log("FOUND USER =", user ? user.email : "NOT FOUND");
 
         if (!user) {
             return res.status(400).json({
@@ -89,6 +91,14 @@ exports.loginUser = async (req, res) => {
             password,
             user.password
         );
+
+        console.log("PASSWORD MATCH =", isMatch);
+
+        if (!isMatch) {
+            return res.status(400).json({
+                error: 'Invalid credentials'
+            });
+        }
 
         if (!isMatch) {
             return res.status(400).json({
