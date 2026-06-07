@@ -833,7 +833,7 @@ const EventDetail = () => {
       <GlobalStyles />
       <div className="ev-404-num">404</div>
       <h2 className="ev-404-title">Event Not Found</h2>
-      <p className="ev-404-sub">This event may have been removed or the link is incorrect. Browse our available events below.</p>
+      <p className="ev-404-sub">This event may havenp been removed or the link is incorrect. Browse our available events below.</p>
       <Link to="/" className="ev-404-btn">← Browse Events</Link>
     </div>
   );

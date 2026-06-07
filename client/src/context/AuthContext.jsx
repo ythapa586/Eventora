@@ -31,7 +31,8 @@ export const AuthProvider = ({ children }) => {
     return data;
   } catch (err) {
   alert(JSON.stringify(err.response?.data));
-  console.log("ERROR DATA =", err.response?.data);
+ console.log("ERROR DATA =", JSON.stringify(err.response?.data, null, 2));
+alert(JSON.stringify(err.response?.data, null, 2));
   console.log(err);
   throw err;
 }
