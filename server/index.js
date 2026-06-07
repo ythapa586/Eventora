@@ -12,17 +12,7 @@ dotenv.config();
 const app = express();
 
 // CORS
-app.use(
-  cors({
-    origin: [
-      "https://eventora-lime.vercel.app",
-      "https://eventora-47rfbgme6-ythapa586s-projects.vercel.app"
-    ],
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"]
-  })
-);
+app.use(cors());
 // Parse JSON
 app.use(express.json());
 
