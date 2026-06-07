@@ -14,74 +14,59 @@ const generateToken = (id, role) => {
 
 // REGISTER USER
 exports.registerUser = async (req, res) => {
-    try {
-        console.log("REGISTER BODY =", req.body);
-        const { name, email, password } = req.body;
+try {
+console.log("REGISTER BODY =", req.body);
+const { name, email, password } = req.body;
+const userExists = await User.findOne({ email });
 
-        const userExists = await User.findOne({ email });
-console.log("USER EXISTS=", userExists);
-          if (userExists) {
-            console.log("USER ALREADY EXISTS");
+console.log("USER EXISTS =", userExists);
 
-            return res.status(400).json({
-                error: 'User already exists'
-            });
-        }
+if (userExists) {
+  return res.status(400).json({
+    error: "User already exists",
+  });
+}
+const salt = await bcrypt.genSalt(10);
+const hashedPassword = await bcrypt.hash(password, salt);
+const user = await User.create({
+  name,
+  email,
+  password: hashedPassword,
+  role: "user",
+  isverified: false,
+});
+const otp = Math.floor(
+  100000 + Math.random() * 900000
+).toString();
 
-        // baaki code...
+console.log(`OTP for ${email}: ${otp}`);
 
-    } catch (error) {
+const savedOtp = await OTP.create({
+  email,
+  otp,
+  action: "account_verification",
+});
 
-        // 👇 YE REPLACE KARO
-        console.error("REGISTER ERROR =", error);
+console.log("SAVED OTP =", savedOtp);
 
-        res.status(500).json({
-            error: error.message
-        });
+// TEMPORARY: email sending off
+// await sendOtpEmail(email, otp, "account_verification");
+
+res.status(201).json({
+  message: "User registered successfully",
+  email: user.email,
+  otp: otp
+});
+
+
+} catch (error) {
+console.error("REGISTER ERROR =", error);
+
+res.status(500).json({
+  error: error.message,
+});
     }
 };
-
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-
-        const user = await User.create({
-            name,
-            email,
-            password: hashedPassword,
-            role: 'user',
-            isverified: false
-        });
-
-        const otp = Math.floor(
-            100000 + Math.random() * 900000
-        ).toString();
-
-        console.log(`OTP for ${email}: ${otp}`);
-
-        const savedOtp = await OTP.create({
-            email,
-            otp,
-            action: 'account_verification'
-        });
-        console.log("SAVED OTP =", savedOtp);
-
-
-        //await sendOtpEmail(email, otp,'account_verification' );
-
-        res.status(201).json({
-            message: 'User registered successfully. Please verify your email.',
-            email: user.email
-        });
-
-    } catch (error) {
-        console.error(error);
-
-        res.status(500).json({
-            error: error.message
-        });
-    }
-};
-
 
 // LOGIN USER
 exports.loginUser = async (req, res) => {
