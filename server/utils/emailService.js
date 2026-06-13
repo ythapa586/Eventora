@@ -3,6 +3,10 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 exports.sendOtpEmail = async (email, otp, type) => {
   try {
+    console.log("sendOtpEmail called");
+    console.log("OTP EMAIL SENT");
+    
+
   
     const mailOptions = {
       from: "onboarding@resend.dev",
