@@ -686,8 +686,8 @@ const IMGS = {
 const AdminDashboard = () => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [event, setEvents] = useState([]);
-  const [booking, setBookings] = useState([]);
+  const [events, setEvents] = useState([]);
+  const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showEventForm, setShowEventForm] = useState(false);
   const [formData, setFormData] = useState({
