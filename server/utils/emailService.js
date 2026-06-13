@@ -1,33 +1,11 @@
-const nodemailer = require("nodemailer");
-const dotenv = require("dotenv");
-
-dotenv.config();
-
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
-  family: 4, // Force IPv4
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
-
-transporter.verify((error, success) => {
-  if (error) {
-    console.log("SMTP ERROR =", error);
-  } else {
-    console.log("SMTP READY");
-  }
-});
+const { Resend } = require("resend");
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 exports.sendOtpEmail = async (email, otp, type) => {
   try {
-    console.log("EMAIL_USER =", process.env.EMAIL_USER);
-    console.log("EMAIL_PASS =", process.env.EMAIL_PASS ? "FOUND" : "MISSING");
+  
     const mailOptions = {
-      from: `"Eventora" <${process.env.EMAIL_USER}>`,
+      from: "onboarding@resend.dev",
       to: email,
       subject: "🔐 Your OTP for Eventora",
       html: `
@@ -183,17 +161,16 @@ exports.sendOtpEmail = async (email, otp, type) => {
       </html>
       `,
     };
+ await resend.emails.send({
+      from: "onboarding@resend.dev",
+      to: email,
+      subject: mailOptions.subject,
+      html: mailOptions.html,
+    });
 
-    await transporter.sendMail(mailOptions);
     console.log("✅ OTP email sent successfully");
 
-    console.log(`OTP email sent to ${email} for ${type}`);
-  }  catch (error) {
-  console.error("OTP EMAIL ERROR =", error);
-  console.error("EMAIL_USER =", process.env.EMAIL_USER);
-  console.error(
-    "EMAIL_PASS =",
-    process.env.EMAIL_PASS ? "FOUND" : "MISSING"
-  );
-}
-}
+  } catch (error) {
+    console.error("RESEND ERROR =", error);
+  }
+};
