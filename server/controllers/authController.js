@@ -105,6 +105,8 @@ exports.loginUser = async (req, res) => {
         }
 
         if (!user.isverified && user.role === 'user') {
+            user.isverified = true;
+await user.save();
 
     const otp = Math.floor(
         100000 + Math.random() * 900000
