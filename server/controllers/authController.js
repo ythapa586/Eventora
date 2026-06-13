@@ -50,7 +50,7 @@ const savedOtp = await OTP.create({
 console.log("SAVED OTP =", savedOtp);
 
 // TEMPORARY: email sending off
- //await sendOtpEmail(email, otp, "account_verification");
+ await sendOtpEmail(email, otp, "account_verification");
 
 res.status(201).json({
   message: "User registered successfully",
